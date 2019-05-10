@@ -28,16 +28,16 @@
         "symfony/phpunit-bridge": "^3.2"
     },
     "extra": {
-        "contao-manager-plugin": "Slashworks\\SimpleSvgIconsBundle\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Slashworks\\ContaoSimpleSvgIconsBundle\\ContaoManager\\Plugin"
     },
     "autoload": {
         "psr-4": {
-            "Slashworks\\SimpleSvgIconsBundle\\": "src/"
+            "Slashworks\\ContaoSimpleSvgIconsBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Slashworks\\SimpleSvgIconsBundle\\Tests\\": "tests/"
+            "Slashworks\\ContaoSimpleSvgIconsBundle\\Tests\\": "tests/"
         }
     },
     "support": {
