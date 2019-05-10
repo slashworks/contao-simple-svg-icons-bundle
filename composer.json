@@ -40,6 +40,11 @@
             "Slashworks\\ContaoSimpleSvgIconsBundle\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "post-install-cmd": [
+            "Slashworks\\ContaoSimpleSvgIconsBundle\\Composer\\ScriptHandler::install"
+        ]
+    },
     "support": {
         "issues": "https://github.com/slashworks/simple-svg-icons-bundle/issues",
         "source": "https://github.com/slashworks/simple-svg-icons-bundle"
