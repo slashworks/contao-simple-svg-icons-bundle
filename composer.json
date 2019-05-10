@@ -43,6 +43,9 @@
     "scripts": {
         "post-install-cmd": [
             "Slashworks\\ContaoSimpleSvgIconsBundle\\Composer\\ScriptHandler::install"
+        ],
+        "post-update-cmd": [
+            "Slashworks\\ContaoSimpleSvgIconsBundle\\Composer\\ScriptHandler::install"
         ]
     },
     "support": {
