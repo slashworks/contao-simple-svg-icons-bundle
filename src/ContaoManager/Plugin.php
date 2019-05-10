@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of [package name].
+ * This file is part of Contao Simple SVG Icons Bundle.
  *
- * (c) John Doe
+ * (c) slashworks
  *
  * @license LGPL-3.0-or-later
  */

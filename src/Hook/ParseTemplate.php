@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Contao Simple SVG Icons Bundle.
+ *
+ * (c) slashworks
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Slashworks\ContaoSimpleSvgIconsBundle\Hook;
 
 use Contao\BackendTemplate;
@@ -8,7 +16,6 @@ use Contao\Template;
 
 class ParseTemplate
 {
-
     /**
      * Replace link title of hyperlink elements when using svg insert tags.
      *
@@ -16,11 +23,11 @@ class ParseTemplate
      */
     public function replaceLinkTitleWithSvgInsertTag(Template $template)
     {
-        if (strpos($template->getName(), 'ce_hyperlink') === false) {
+        if (false === strpos($template->getName(), 'ce_hyperlink')) {
             return;
         }
 
-        if (strpos($template->linkTitle, '{{svg::') === false) {
+        if (false === strpos($template->linkTitle, '{{svg::')) {
             return;
         }
 

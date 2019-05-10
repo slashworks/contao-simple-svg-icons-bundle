@@ -1,17 +1,17 @@
 <?php
 
 /*
- * This file is part of [package name].
+ * This file is part of Contao Simple SVG Icons Bundle.
  *
- * (c) John Doe
+ * (c) slashworks
  *
  * @license LGPL-3.0-or-later
  */
 
 namespace Slashworks\ContaoSimpleSvgIconsBundle\Tests;
 
-use Slashworks\ContaoSimpleSvgIconsBundle\ContaoSimpleSvgIconsBundle;
 use PHPUnit\Framework\TestCase;
+use Slashworks\ContaoSimpleSvgIconsBundle\ContaoSimpleSvgIconsBundle;
 
 class ContaoSimpleSvgIconsBundleTest extends TestCase
 {

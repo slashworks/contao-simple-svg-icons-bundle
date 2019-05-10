@@ -1,16 +1,23 @@
 <?php
 
+/*
+ * This file is part of Contao Simple SVG Icons Bundle.
+ *
+ * (c) slashworks
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Slashworks\ContaoSimpleSvgIconsBundle\Hook;
 
 use Slashworks\ContaoSimpleSvgIconsBundle\SimpleSvgIcons;
 
 class ReplaceInsertTags
 {
-
     /**
      * Custom replaceInsertTags Hook to recognize insert tag for SVG icons.
      *
-     * @param $sTag
+     * @param mixed $tag
      *
      * @return bool|string
      */
@@ -19,7 +26,7 @@ class ReplaceInsertTags
         $tagParts = explode('::', $tag);
 
         // Not our inserttag.
-        if ($tagParts[0] !== 'svg') {
+        if ('svg' !== $tagParts[0]) {
             return false;
         }
 
@@ -45,9 +52,8 @@ class ReplaceInsertTags
         }
 
         foreach ($svgFiles as $svgFile) {
-
             // Icon id could not be found in the selected svg icon file.
-            if (!in_array($iconId, $svgFile['symbols'])) {
+            if (!\in_array($iconId, $svgFile['symbols'], true)) {
                 continue;
             }
 
@@ -59,10 +65,10 @@ class ReplaceInsertTags
             $GLOBALS['TL_BODY'][] = '<script>svg4everybody();</script>';
 
             // Include symbol id as CSS class to make targeting specific icons easier.
-            $cssClass .= ' ' . $iconId;
+            $cssClass .= ' '.$iconId;
 
             if ($customClass) {
-                $cssClass .= ' ' . $customClass;
+                $cssClass .= ' '.$customClass;
             }
 
             $viewbox = SimpleSvgIcons::getViewboxForFileAndSymbol($path, $iconId);
