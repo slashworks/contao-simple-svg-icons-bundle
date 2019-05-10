@@ -4,6 +4,7 @@ namespace Slashworks\ContaoSimpleSvgIconsBundle\Composer;
 
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -34,22 +35,23 @@ class ScriptHandler
      */
     public static function copyExampleSvgIconSprite()
     {
+        $cwd = __DIR__ . '/../../../../../';
         $filesystem = new Filesystem();
 
-        if (!$filesystem->exists(getcwd() . '/files')) {
+        if (!$filesystem->exists($cwd . '/files')) {
             return;
         }
 
         // Create target dummy folder and make it public
-        if (!$filesystem->exists(getcwd() . '/files/example-svg-icon-sprite')) {
-            $filesystem->mkdir(getcwd() . '/files/example-svg-icon-sprite');
+        if (!$filesystem->exists($cwd . '/files/example-svg-icon-sprite')) {
+            $filesystem->mkdir($cwd . '/files/example-svg-icon-sprite');
 
             // Make the folder and its contents publicly available.
-            file_put_contents(getcwd() . '/files/example-svg-icon-sprite/.public', '');
+            file_put_contents($cwd . '/files/example-svg-icon-sprite/.public', '');
         }
 
         // Copy demo svg icon sprite to target dummy folder.
-        $filesystem->copy(__DIR__ . '/../../example-sprite.svg', getcwd() . '/files/example-svg-icon-sprite/example-sprite.svg');
+        $filesystem->copy(__DIR__ . '/../../example-sprite.svg', $cwd . '/files/example-svg-icon-sprite/example-sprite.svg');
     }
 
     /**
