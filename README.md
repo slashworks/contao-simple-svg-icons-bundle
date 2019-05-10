@@ -12,7 +12,7 @@ Installation
 
 Install with ```composer require slashworks/contao-simple-svg-icons```.  
 After updating the database, select the SVG icon sprite file in the settings of your theme. Use the new field **icon files** to select the SVG icon sprite file. The icons you can use are taken from this file.  
-For an easy start, an example SVG icon sprite file will be copied over to **/files/dummy-svg-icon-sprite/example-sprite.svg**  
+For an easy start, download the [example-sprite.svg][example-sprite-file] and place it inside the files folder of your contao installation.  
 
 An SVG icon sprite file is a collection of multiple SVG icons, defined within a ```<symbol>```.  
 The menu icon for example looks like this:
@@ -157,3 +157,4 @@ The icons used in the example sprite have been taken from [Google Material Icons
 [burger-menu-step-3]: screenshots/step-3.png
 [burger-menu-hover]: screenshots/button-hover.gif
 [burger-menu-hover-multi-color]: screenshots/button-hover-multi-color.gif
+[example-sprite-file]: example-sprite.svg
