@@ -60,7 +60,7 @@ class ReplaceInsertTags
             $path = $svgFile['path'];
 
             // Add svg4everybody library
-            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/slashworkssimplesvgicons/svg4everybody.min.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/contaosimplesvgicons/svg4everybody.min.js';
             // Place svg4everybody-call in the footer.
             $GLOBALS['TL_BODY'][] = '<script>svg4everybody();</script>';
 
