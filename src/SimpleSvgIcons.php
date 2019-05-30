@@ -57,7 +57,7 @@ class SimpleSvgIcons
             // Get object file.
             $fileModel = FilesModel::findByUuid($fileHash);
 
-            if (!file_exists($fileModel->path)) {
+            if (!file_exists(TL_ROOT . '/' . $fileModel->path)) {
                 continue;
             }
 
@@ -80,7 +80,7 @@ class SimpleSvgIcons
      */
     public static function getSvgSymbolsFromFile($fileModel)
     {
-        $filePath = $fileModel->path;
+        $filePath = TL_ROOT . '/' . $fileModel->path;
         $symbolIds = [];
 
         // Iterate over each <symbol>-Tag in the SVG file an get the value of the id-attribute.
