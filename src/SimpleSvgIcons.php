@@ -24,48 +24,33 @@ class SimpleSvgIcons
      */
     public static function getSvgIconFiles()
     {
-        global $objPage;
         $svgSymbols = [];
 
-        // Get layout for current page
-        $layoutId = $objPage->layout;
-        $layout = LayoutModel::findById($layoutId);
-
-        if (null === $layout) {
+        $themes = ThemeModel::findAll();
+        if ($themes === null) {
             return $svgSymbols;
         }
 
-        // Get the theme, that the current layout is using.
-        $theme = ThemeModel::findById($layout->pid);
-
-        if (null === $theme) {
-            return $svgSymbols;
-        }
-
-        // Get SVG files selected in the theme.
-        $files = StringUtil::deserialize($theme->iconFiles);
-
-        if (null === $files) {
-            return $svgSymbols;
-        }
-
-        if (!isset($files[0])) {
-            return $svgSymbols;
-        }
-
-        foreach ($files as $fileHash) {
-            // Get object file.
-            $fileModel = FilesModel::findByUuid($fileHash);
-
-            if (!file_exists(TL_ROOT . '/' . $fileModel->path)) {
+        while ($themes->next()) {
+            $files = StringUtil::deserialize($themes->iconFiles);
+            if (empty($files)) {
                 continue;
             }
 
-            if ('svg' !== $fileModel->extension) {
-                continue;
-            }
+            foreach ($files as $fileHash) {
+                // Get object file.
+                $fileModel = FilesModel::findByUuid($fileHash);
 
-            $svgSymbols[] = self::getSvgSymbolsFromFile($fileModel);
+                if (!file_exists(TL_ROOT . '/' . $fileModel->path)) {
+                    continue;
+                }
+
+                if ('svg' !== $fileModel->extension) {
+                    continue;
+                }
+
+                $svgSymbols[] = self::getSvgSymbolsFromFile($fileModel);
+            }
         }
 
         return $svgSymbols;
@@ -80,7 +65,7 @@ class SimpleSvgIcons
      */
     public static function getSvgSymbolsFromFile($fileModel)
     {
-        $filePath = TL_ROOT . '/' . $fileModel->path;
+        $filePath = $fileModel->path;
         $symbolIds = [];
 
         // Iterate over each <symbol>-Tag in the SVG file an get the value of the id-attribute.
