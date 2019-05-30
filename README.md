@@ -140,6 +140,39 @@ button:hover svg {
 ```
 ![Burger menu hover with separate icon color][burger-menu-hover-multi-color]
 
+---
+
+Backend widget for icon selection
+---------------------------------
+
+The extension contains a custom backend widget to make the icon selection easy and intuitive.  
+To use the widget, use the following code as reference.  
+
+Example dca file, e. g. tl_content 
+```php
+<?php
+
+use \Slashworks\ContaoSimpleSvgIconsBundle\DataContainer\General;
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['myIcon'] = array
+(
+    'label'            => &$GLOBALS['TL_LANG']['tl_content']['icon'],
+    'inputType'        => 'svgiconselect', // This field uses the custom backend widget
+    'options_callback' => array(General::class, 'getIcons'), // Get all svg icons selected in the themes.
+    'reference'        => &$GLOBALS['TL_LANG']['MSC']['icons'], // Use the symbols ID as key for a translation.
+    'eval'             => array('includeBlankOption' => true),
+    'sql'              => "varchar(64) NOT NULL default ''",
+);
+```
+
+Example language file
+```php
+<?php
+
+$GLOBALS['TL_LANG']['MSC']['icons']['icon-arrow-right'] = 'Pfeil nach rechts';
+$GLOBALS['TL_LANG']['MSC']['icons']['icon-arrow-left'] = 'Pfeil nach links';
+```
+
 
 Licensing
 ---------

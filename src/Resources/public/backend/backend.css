@@ -1,0 +1,43 @@
+
+/* SvgIconSelect widget
+========================================================================== */
+
+fieldset.tl_iconselect_container .item-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+fieldset.tl_iconselect_container .item {
+    height: 42px;
+    margin-bottom: 4px;
+    margin-right: 4px;
+    width: 42px;
+}
+
+fieldset.tl_iconselect_container legend {
+    width: 100%;
+}
+
+fieldset.tl_iconselect_container label {
+    border: 2px solid #eeeeee;
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    padding: 5px;
+    width: 32px;
+}
+
+fieldset.tl_iconselect_container input[type="radio"] {
+    display: none;
+}
+
+fieldset.tl_iconselect_container input[type="radio"]:checked + label {
+    border-color: #f47c00;
+}
+
+fieldset.tl_iconselect_container .svg-icon {
+    height: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    width: 32px;
+}
