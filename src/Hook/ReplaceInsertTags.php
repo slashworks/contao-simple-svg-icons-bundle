@@ -10,6 +10,12 @@
 
 namespace Slashworks\ContaoSimpleSvgIconsBundle\Hook;
 
+use Contao\FilesModel;
+use Contao\ImagineSvg\Imagine;
+use Contao\ImagineSvg\RelativeBoxInterface;
+use Contao\ImagineSvg\UndefinedBoxInterface;
+use Contao\Validator;
+use Imagine\Image\Box;
 use Slashworks\ContaoSimpleSvgIconsBundle\SimpleSvgIcons;
 
 class ReplaceInsertTags
@@ -23,25 +29,55 @@ class ReplaceInsertTags
      */
     public function replaceSvgInsertTags($tag)
     {
+        $insertTag = false;
+
         $tagParts = explode('::', $tag);
 
-        // Not our inserttag.
+        // Not our insert tag.
         if ('svg' !== $tagParts[0]) {
             return false;
         }
 
-        // The icon id is missing.
-        if (!isset($tagParts[1])) {
-            return false;
+        $svgId = ''; // Can contain a symbol id from an svg sprite or a uuid of an svg file.
+        $params = array();
+
+        // Process arguments, e. g. width, height, custom CSS class
+        if (strpos($tagParts[1], '?') !== false) {
+            $chunks = explode('?', urldecode($tagParts[1]), 2);
+            $svgId = $chunks[0];
+            $strSource = \StringUtil::decodeEntities($chunks[1]);
+            $strSource = str_replace('[&]', '&', $strSource);
+            $tempParams = explode('&', $strSource);
+
+            foreach ($tempParams as $param) {
+                list($key, $value) = explode('=', $param);
+                $params[$key] = $value;
+            }
+        } else {
+            $svgId = $tagParts[1];
         }
 
-        $iconId = $tagParts[1];
+        // Differentiate between svg icon from svg sprite and inline svg from a file.
+        if (Validator::isUuid($svgId)) {
+            $insertTag = $this->replaceInline($svgId, $params);
+        } else {
+            $insertTag = $this->replaceDefault($svgId, $params);
+        }
+
+        return $insertTag;
+    }
+
+    /**
+     * @param string $iconId
+     * @param array  $params
+     *
+     * @return bool|string
+     */
+    protected function replaceDefault($iconId, $params = array())
+    {
         $cssClass = 'svg-icon';
-        $customClass = '';
-
-        if (isset($tagParts[2])) {
-            $customClass = $tagParts[2];
-        }
+        $customClass = $params['class'];
+        $customId = $params['id'];
 
         // Get all selected SVG files.
         $svgFiles = SimpleSvgIcons::getSvgIconFiles();
@@ -65,22 +101,23 @@ class ReplaceInsertTags
             $GLOBALS['TL_BODY'][] = '<script>svg4everybody();</script>';
 
             // Include symbol id as CSS class to make targeting specific icons easier.
-            $cssClass .= ' '.$iconId;
+            $cssClass .= ' ' . $iconId;
 
             if ($customClass) {
-                $cssClass .= ' '.$customClass;
+                $cssClass .= ' ' . $customClass;
             }
 
-            $viewbox = SimpleSvgIcons::getViewboxForFileAndSymbol($path, $iconId);
+            $viewBox = SimpleSvgIcons::getViewboxForFileAndSymbol($path, $iconId);
 
             // The file hash is included in the href attribute of the use element to prevent caching errors after modifications in the SVG file.
-            $filehash = hash_file('md5', $svgFile['path']);
+            $fileHash = hash_file('md5', $svgFile['path']);
 
-            $svg = sprintf('<svg class="%s" viewbox="%s"><use xlink:href="/%s?v=%s#%s"></use></svg>',
+            $svg = sprintf('<svg %s class="%s" viewBox="%s"><use xlink:href="/%s?v=%s#%s"></use></svg>',
+                ($customId) ? 'id="' . $customId . '"' : '',
                 $cssClass,
-                $viewbox,
+                $viewBox,
                 $path,
-                $filehash,
+                $fileHash,
                 $iconId
             );
 
@@ -89,4 +126,88 @@ class ReplaceInsertTags
 
         return false;
     }
+
+    /**
+     * @param string $uuid
+     * @param array  $params
+     *
+     * @return bool|string
+     */
+    protected function replaceInline($uuid, $params = array())
+    {
+        $svgFile = FilesModel::findByUuid($uuid);
+        // The file model could not be found.
+        if ($svgFile === null) {
+            return false;
+        }
+
+        // The file does not exist.
+        if (!file_exists(TL_ROOT . '/' . $svgFile->path)) {
+            return false;
+        }
+
+        // Only consider svg files.
+        if ($svgFile->extension !== 'svg') {
+            return false;
+        }
+
+        $customId = $params['id'];
+        $cssClass = 'svg-inline';
+        if ($params['class']) {
+            $cssClass .= ' ' . $params['class'];
+        }
+
+        $isResizable = true;
+        $width = $params['width'];
+        $height = $params['height'];
+        $ratio = null;
+
+        $imagine = new Imagine();
+        $imagineSvg = $imagine->open($svgFile->path);
+        $size = $imagineSvg->getSize();
+
+        // We cannot resize an svg with an undefined size.
+        if ($size instanceof UndefinedBoxInterface) {
+            $isResizable = false;
+        }
+
+        if ($isResizable && ($width || $height)) {
+            $ratio = $size->getHeight() / $size->getWidth();
+            $resizeBox = null;
+
+            if ($width && $height) {
+                $resizeBox = new Box($width, $height);
+            } else if ($width && !$height) {
+                $resizeBox = new Box($width, $width * $ratio);
+            } else if (!$width && $height) {
+                $resizeBox = new Box($height / $ratio, $height);
+            }
+
+            $imagineSvg->resize($resizeBox);
+        }
+
+        $svgContent = $imagineSvg->get('svg');
+
+        $svgXml = simplexml_load_string($svgContent);
+        $xmlAttributes = $svgXml->attributes();
+
+        if ($customId) {
+            if (isset($xmlAttributes['id'])) {
+                $xmlAttributes->id = $customId;
+            } else {
+                $xmlAttributes->addAttribute('id', $customId);
+            }
+        }
+
+        if (isset($xmlAttributes['class'])) {
+            $xmlAttributes->class = $cssClass;
+        } else {
+            $xmlAttributes->addAttribute('class', $cssClass);
+        }
+
+        $svgContent = $svgXml->asXML();
+
+        return $svgContent;
+    }
+
 }

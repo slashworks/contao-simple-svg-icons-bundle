@@ -1,14 +1,13 @@
-Contao 4 Simple SVG Icons Bundle
-================================
+# Contao 4 Simple SVG Icons Bundle
 
 
-About
------
-With this extension you can easily add SVG icons from an icon-sprite file to your website via Contao Inserttags.
+## About
+
+With this extension you can easily add SVG icons from an icon-sprite file to your website via Contao Inserttags.  
+It also allows to output inline SVG from an SVG file in the file system.
 
 
-Installation
-------------------
+## Installation
 
 Install with ```composer require slashworks/contao-simple-svg-icons```.  
 After updating the database, select the SVG icon sprite file in the settings of your theme. Use the new field **icon files** to select the SVG icon sprite file. The icons you can use are taken from this file.  
@@ -26,39 +25,63 @@ The important part for using this icon is the **id** of the symbol.
 For further information about creating your own SVG icon sprite file you can check out [A Guide to Create and Use SVG Sprites](https://w3bits.com/svg-sprites/).
 
 
-Usage
------
+## Usage
 
-You can use an SVG icon with the Contao inserttags.  
-The base format is ```{{svg::ICON_ID}}```.  
-The output will be in the format:
+### SVG Sprite
+When you want to output a symbol from an SVG sprite, the base format is  
+```{{svg::ICON_ID}}```.  
+The rendered output:
 ```html
 <svg class="svg-icon ICON_ID" viewBox="x y w h">
     <use xlink:href="…">…</use>
 </svg>
 ```
 
-You can use an optional third parameter in the inserttag to include a custom CSS class:
-```{{svg::ICON_ID::CUSTOM_CLASS}}```  
-This will be rendered as:
+### Inline SVG
+You can also output an SVG file inline.  
+Instead of the symbol's id you have to provide the UUID of the SVG file in the file system:  
+```{{svg::a8824458-a08e-11e9-9d96-81cb79fa7a74}}```  
+The rendered output:
 ```html
-<svg class="svg-icon ICON_ID CUSTOM_CLASS">…</svg>
-```
+<svg class="svg-inline" viewBox="x y w h">
+    <path></path>
+    …
+</svg>
+``` 
 
 ---
 
-An example would then be:
-```
-{{svg::icon_menu_24px::my-css-class}}
-```
-And the rendered output:
+## Parameters
+
+You can pass additional parameters to the insert tag:
+
+**class:** ```{{svg::ICON_ID|UUID?class=my-css-class}}```   
+This adds the given string as CSS class to the svg element and will be rendered as:
 ```html
-<svg class="svg-icon icon_menu_24px my-css-class">…</svg>
+<svg class="svg-icon ICON_ID my-css-class">…</svg>
 ```
 
+**id:** ```{{svg::ICON_ID|UUID?id=my-css-id}}```  
+This adds the given string as CSS ID to the svg element and will be rendered as:  
+```html
+<svg class="svg-icon ICON_ID" id="my-css-id">…</svg>
+```
 
-Tips
------
+**width**: ```{{svg::UUID?width=120}}```  
+The width parameter only works with inline SVG.  
+If the width property is set without a height property, the extension tries to get the aspect ratio from already existing width/height attributes or the viewBox attribute and sets the height accordingly. You can always overwrite this with CSS.
+
+**height**: ```{{svg::UUID?height=80}}```  
+The height parameter only works with inline SVG.  
+If the height property is set without a width property, the extension tries to get the aspect ratio from already existing width/height attributes or the viewBox attribute and sets the width accordingly. You can always overwrite this with CSS.
+
+You can use multiple parameters in any combination:  
+```{{svg::UUID?width=120}}```  
+```{{svg::UUID?height=80&class=custom-icon}}```  
+```{{svg::ICON_ID|UUID?id=my-icon-id&class=custom-icon-class}}```
+
+
+## Tips
 
 The main purpose for svg icons is to use them in conjuction with text, e. g. menu burger, contact information, slider ui elements, …. As a starting point for the CSS styling of the svg icons you could use the following definitions:
 ```css
@@ -72,8 +95,7 @@ This will scale the icon according to the font-size of the parent element.
 Additionally, the vertical positioning requires some further adjustments for fine tuning. You can try to use **vertical-align**, **relative** positioning with some **top** or **bottom** values, or make the parent a **flex**-container and use **align-items** to properly position the enclosed icon.
 
 
-Example: Burger Menu
---------------------
+## Example: Burger Menu
 
 Lets walk through a burger menu example.  
 We want to use the icon_menu_24px from the example sprite, so our inserttag looks like this:  
@@ -142,8 +164,7 @@ button:hover svg {
 
 ---
 
-Backend widget for icon selection
----------------------------------
+## Backend widget for icon selection
 
 The extension contains a custom backend widget to make the icon selection easy and intuitive.  
 To use the widget, use the following code as reference.  
@@ -174,14 +195,12 @@ $GLOBALS['TL_LANG']['MSC']['icons']['icon-arrow-left'] = 'Pfeil nach links';
 ```
 
 
-Licensing
----------
+## Licensing
 
 This contao module is licensed under the terms of the LGPLv3.
 
 
-Credits
--------
+## Credits
 
 The icons used in the example sprite have been taken from [Google Material Icons](https://material.io/tools/icons).
 
