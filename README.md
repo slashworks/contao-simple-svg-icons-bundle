@@ -58,13 +58,13 @@ You can pass additional parameters to the insert tag:
 **class:** ```{{svg::ICON_ID|UUID?class=my-css-class}}```   
 This adds the given string as CSS class to the svg element and will be rendered as:
 ```html
-<svg class="svg-icon ICON_ID my-css-class">…</svg>
+<svg class="svg-inline ICON_ID my-css-class">…</svg>
 ```
 
 **id:** ```{{svg::ICON_ID|UUID?id=my-css-id}}```  
 This adds the given string as CSS ID to the svg element and will be rendered as:  
 ```html
-<svg class="svg-icon ICON_ID" id="my-css-id">…</svg>
+<svg class="svg-inline ICON_ID" id="my-css-id">…</svg>
 ```
 
 **width**: ```{{svg::UUID?width=120}}```  
@@ -85,7 +85,7 @@ You can use multiple parameters in any combination:
 
 The main purpose for svg icons is to use them in conjuction with text, e. g. menu burger, contact information, slider ui elements, …. As a starting point for the CSS styling of the svg icons you could use the following definitions:
 ```css
-.svg-icon {
+.svg-inline {
     fill: currentColor;
     height: auto;
     width: 1em;
@@ -121,7 +121,7 @@ button {
     font-size: 1em;
 }
 
-button .svg-icon {
+button .svg-inline {
     width: 1.5em;
 }
 ```
