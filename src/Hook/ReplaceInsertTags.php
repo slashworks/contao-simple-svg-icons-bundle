@@ -205,7 +205,7 @@ class ReplaceInsertTags
             $xmlAttributes->addAttribute('class', $cssClass);
         }
 
-        $svgContent = $svgXml->asXML();
+        $svgContent = preg_replace("/<\\?xml.*\\?>/",'',$svgXml->asXML(),1);
 
         return $svgContent;
     }
