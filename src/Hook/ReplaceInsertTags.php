@@ -76,8 +76,16 @@ class ReplaceInsertTags
     protected function replaceDefault($iconId, $params = array())
     {
         $cssClass = 'svg-icon';
-        $customClass = $params['class'];
-        $customId = $params['id'];
+        if (!empty($params['class'])) {
+            $customClass = $params['class'];
+        } else {
+            $customClass = '';
+        }
+        if (!empty($params['id'])) {
+            $customId = $params['id'];
+        } else {
+            $customId = '';
+        }
 
         // Get all selected SVG files.
         $svgFiles = SimpleSvgIcons::getSvgIconFiles();
