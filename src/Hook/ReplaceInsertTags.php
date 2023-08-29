@@ -151,15 +151,15 @@ class ReplaceInsertTags
             return false;
         }
 
-        $customId = $params['id'];
+        $customId = $params['id'] ?? NULL;
         $cssClass = 'svg-inline';
-        if ($params['class']) {
+        if (!empty($params['class'])) {
             $cssClass .= ' ' . $params['class'];
         }
 
         $isResizable = true;
-        $width = $params['width'];
-        $height = $params['height'];
+        $width = $params['width'] ?? '';
+        $height = $params['height'] ?? '';
         $ratio = null;
 
         $imagine = new Imagine();
