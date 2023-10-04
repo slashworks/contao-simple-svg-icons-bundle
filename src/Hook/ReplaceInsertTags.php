@@ -176,11 +176,11 @@ class ReplaceInsertTags
             $resizeBox = null;
 
             if ($width && $height) {
-                $resizeBox = new Box($width, $height);
+                $resizeBox = new Box((int) $width, (int) $height);
             } else if ($width && !$height) {
-                $resizeBox = new Box($width, $width * $ratio);
+                $resizeBox = new Box((int) $width, (int) $width * $ratio);
             } else if (!$width && $height) {
-                $resizeBox = new Box($height / $ratio, $height);
+                $resizeBox = new Box((int) $height / $ratio, (int) $height);
             }
 
             $imagineSvg->resize($resizeBox);
