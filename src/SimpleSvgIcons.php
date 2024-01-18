@@ -14,6 +14,7 @@ use Contao\FilesModel;
 use Contao\LayoutModel;
 use Contao\StringUtil;
 use Contao\ThemeModel;
+use Contao\System;
 
 class SimpleSvgIcons
 {

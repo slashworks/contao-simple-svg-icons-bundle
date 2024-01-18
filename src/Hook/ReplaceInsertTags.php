@@ -15,6 +15,7 @@ use Contao\ImagineSvg\Imagine;
 use Contao\ImagineSvg\RelativeBoxInterface;
 use Contao\ImagineSvg\UndefinedBoxInterface;
 use Contao\Validator;
+use Contao\System;
 use Imagine\Image\Box;
 use Slashworks\ContaoSimpleSvgIconsBundle\SimpleSvgIcons;
 
