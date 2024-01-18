@@ -4,6 +4,8 @@
  * Back end form fields
  */
 
+use Contao\System;
+
 $GLOBALS['BE_FFL']['svgiconselect'] = \Slashworks\ContaoSimpleSvgIconsBundle\Widget\SvgIconSelect::class;
 
 
@@ -23,6 +25,7 @@ $GLOBALS['TL_HOOKS']['parseTemplate'][] = array(
 /**
  * Back end assets
  */
-if (TL_MODE === 'BE') {
+$request = System::getContainer()->get('request_stack')->getCurrentRequest();
+if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request)) {
     $GLOBALS['TL_CSS'][] = 'bundles/contaosimplesvgicons/backend/backend.css|static';
 }
