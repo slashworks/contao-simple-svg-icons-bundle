@@ -40,8 +40,9 @@ class SimpleSvgIcons
             foreach ($files as $fileHash) {
                 // Get object file.
                 $fileModel = FilesModel::findByUuid($fileHash);
+                $rootDir = System::getContainer()->getParameter('kernel.project_dir');
 
-                if (!file_exists(TL_ROOT . '/' . $fileModel->path)) {
+                if (!file_exists($rootDir . '/' . $fileModel->path)) {
                     continue;
                 }
 

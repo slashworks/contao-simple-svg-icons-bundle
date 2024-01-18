@@ -142,7 +142,9 @@ class ReplaceInsertTags
         }
 
         // The file does not exist.
-        if (!file_exists(TL_ROOT . '/' . $svgFile->path)) {
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+
+        if (!file_exists($rootDir . '/' . $svgFile->path)) {
             return false;
         }
 
