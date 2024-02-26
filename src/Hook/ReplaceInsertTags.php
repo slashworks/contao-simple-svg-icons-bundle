@@ -16,6 +16,7 @@ use Contao\ImagineSvg\RelativeBoxInterface;
 use Contao\ImagineSvg\UndefinedBoxInterface;
 use Contao\Validator;
 use Contao\System;
+use Contao\StringUtil;
 use Imagine\Image\Box;
 use Slashworks\ContaoSimpleSvgIconsBundle\SimpleSvgIcons;
 
@@ -46,7 +47,7 @@ class ReplaceInsertTags
         if (strpos($tagParts[1], '?') !== false) {
             $chunks = explode('?', urldecode($tagParts[1]), 2);
             $svgId = $chunks[0];
-            $strSource = \StringUtil::decodeEntities($chunks[1]);
+            $strSource = StringUtil::decodeEntities($chunks[1]);
             $strSource = str_replace('[&]', '&', $strSource);
             $tempParams = explode('&', $strSource);
 
