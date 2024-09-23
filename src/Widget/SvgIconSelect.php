@@ -2,9 +2,10 @@
 
 namespace Slashworks\ContaoSimpleSvgIconsBundle\Widget;
 
-use Contao\Controller;
 use Contao\RadioButton;
 use Contao\Widget;
+use Contao\StringUtil;
+use Contao\System;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -43,13 +44,14 @@ class SvgIconSelect extends RadioButton
             if ($arrOption['value'] === '') {
                 $svgIcon = '';
             } else {
-                $svgIcon = Controller::replaceInsertTags('{{svg::' . $arrOption['value'] . '}}') . ' ';
+                $insertTagParser = System::getContainer()->get('contao.insert_tag.parser');
+                $svgIcon = $insertTagParser->replace('{{svg::' . $arrOption['value'] . '}}') . ' ';
             }
 
             $arrOptions[] = sprintf('<div class="item"><input type="radio" name="%s" id="opt_%s" class="tl_radio" value="%s"%s%s onfocus="Backend.getScrollOffset()"> <label for="opt_%s" title="%s">%s</label></div>',
                 $this->strName,
                 $this->strId.'_'.$i,
-                \StringUtil::specialchars($arrOption['value']),
+                StringUtil::specialchars($arrOption['value']),
                 $this->isChecked($arrOption),
                 $this->getAttributes(),
                 $this->strId.'_'.$i,
