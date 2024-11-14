@@ -156,9 +156,10 @@ class ReplaceInsertTags
         }
 
         $customId = $params['id'] ?? NULL;
+        $customClass = $params['class'] ?? NULL;
         $cssClass = 'svg-inline';
-        if (!empty($params['class'])) {
-            $cssClass .= ' ' . $params['class'];
+        if (!empty($customClass)) {
+            $cssClass .= ' ' . $customClass;
         }
 
         $isResizable = true;
