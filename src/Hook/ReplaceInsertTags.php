@@ -16,9 +16,9 @@ use Contao\ImagineSvg\RelativeBoxInterface;
 use Contao\ImagineSvg\UndefinedBoxInterface;
 use Contao\Validator;
 use Contao\System;
-use Contao\StringUtil;
 use Imagine\Image\Box;
 use Slashworks\ContaoSimpleSvgIconsBundle\SimpleSvgIcons;
+use Contao\StringUtil;
 
 class ReplaceInsertTags
 {
@@ -111,13 +111,19 @@ class ReplaceInsertTags
 
             $viewBox = SimpleSvgIcons::getViewboxForFileAndSymbol($path, $iconId);
 
+            // add parameter height/width to svg
+            $width = $params['width'] ?? null;
+            $height = $params['height'] ?? null;
+
             // The file hash is included in the href attribute of the use element to prevent caching errors after modifications in the SVG file.
             $fileHash = hash_file('md5', $svgFile['path']);
 
-            $svg = sprintf('<svg %s class="%s" viewBox="%s"><use xlink:href="/%s?v=%s#%s"></use></svg>',
+            $svg = sprintf('<svg %s class="%s" viewBox="%s" %s %s><use xlink:href="/%s?v=%s#%s"></use></svg>',
                 ($customId) ? 'id="' . $customId . '"' : '',
                 $cssClass,
                 $viewBox,
+                ($width) ? 'width="' . $width . '"' : '',
+                ($height) ? 'width="' . $height . '"' : '',
                 $path,
                 $fileHash,
                 $iconId
