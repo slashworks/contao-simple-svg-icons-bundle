@@ -1,4 +1,4 @@
-# Contao 4 Simple SVG Icons Bundle
+# Contao 4 & 5 Simple SVG Icons Bundle
 
 
 ## About
@@ -16,7 +16,7 @@ For an easy start, download the [example-sprite.svg][example-sprite-file] and pl
 An SVG icon sprite file is a collection of multiple SVG icons, defined within a ```<symbol>```.  
 The menu icon for example looks like this:
 ```html
-<symbol viewBox="0 0 24 24" id="ic_menu_24px">
+<symbol viewBox="0 0 24 24" id="ic_menu_24px" title="lucky cat">
     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
 </symbol>
 ```
