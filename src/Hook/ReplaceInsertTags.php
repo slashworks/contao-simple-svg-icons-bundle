@@ -111,6 +111,8 @@ class ReplaceInsertTags
 
             $viewBox = SimpleSvgIcons::getViewboxForFileAndSymbol($path, $iconId);
 
+            $title = SimpleSvgIcons::getTitleForFileAndSymbol($path, $iconId);
+
             // add parameter height/width to svg
             $width = $params['width'] ?? null;
             $height = $params['height'] ?? null;
@@ -118,10 +120,11 @@ class ReplaceInsertTags
             // The file hash is included in the href attribute of the use element to prevent caching errors after modifications in the SVG file.
             $fileHash = hash_file('md5', $svgFile['path']);
 
-            $svg = sprintf('<svg %s class="%s" viewBox="%s" %s %s><use xlink:href="/%s?v=%s#%s"></use></svg>',
+            $svg = sprintf('<svg %s class="%s" viewBox="%s" %s %s %s><use xlink:href="/%s?v=%s#%s"></use></svg>',
                 ($customId) ? 'id="' . $customId . '"' : '',
                 $cssClass,
                 $viewBox,
+                ($title) ? 'title="' . $title . '"' : '',
                 ($width) ? 'width="' . $width . '"' : '',
                 ($height) ? 'width="' . $height . '"' : '',
                 $path,

@@ -108,4 +108,31 @@ class SimpleSvgIcons
 
         return $viewbox;
     }
+
+
+    /**
+     * Get the title attribute from an svg icon sprite file for a given symbol id.
+     *
+     * @param $path
+     * @param $symbol
+     * @return string
+     */
+    public static function getTitleForFileAndSymbol($path, $symbol)
+    {
+        $title = '';
+
+        $xml = simplexml_load_file($path);
+        foreach ($xml->symbol as $xmlSymbol) {
+            $symbolId = (string) $xmlSymbol->attributes()->id;
+
+            if ($symbolId !== $symbol) {
+                continue;
+            }
+
+            $title = (string) $xmlSymbol->attributes()->title;
+            break;
+        }
+
+        return $title;
+    }
 }
