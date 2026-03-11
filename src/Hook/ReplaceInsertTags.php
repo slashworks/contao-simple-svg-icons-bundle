@@ -35,8 +35,8 @@ class ReplaceInsertTags
 
         $tagParts = explode('::', $tag);
 
-        // Not our insert tag.
-        if ('svg' !== $tagParts[0]) {
+        // Not our insert tag or secound part is empty.
+        if ('svg' !== $tagParts[0] || empty($tagParts[1]) {
             return false;
         }
 
