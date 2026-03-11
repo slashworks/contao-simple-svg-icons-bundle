@@ -35,11 +35,16 @@ class ReplaceInsertTags
 
         $tagParts = explode('::', $tag);
 
-        // Not our insert tag or secound part is empty.
-        if ('svg' !== $tagParts[0] || empty($tagParts[1]) {
+        // Not our insert tag
+        if ('svg' !== $tagParts[0]) {
             return false;
         }
 
+        // return empty string when secound part is emtpy to prevent unknown insert tag
+        if( empty($tagParts[1]) ) {
+            return '';
+        }
+        
         $svgId = ''; // Can contain a symbol id from an svg sprite or a uuid of an svg file.
         $params = array();
 
